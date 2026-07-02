@@ -1,0 +1,6 @@
+export const TIMEOUTS = {
+  IMPLICIT: 5000,
+  EXPLICIT: 10000,
+  PAGE_LOAD: 30000,
+  ANIMATION_DELAY: 500,
+} as const;

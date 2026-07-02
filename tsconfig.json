@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+    "target": "es2022",
+    "lib": ["es2022", "dom"],
+    "types": ["node", "@wdio/globals/types", "expect-webdriverio", "@wdio/mocha-framework"],
+    "paths": {
+      "api/*": ["./src/api/*.ts"],
+      "utils/*": ["./src/utils/*.ts"],
+      "config/*": ["./config/*.conf.ts"],
+      "pages/*": ["./src/pages/*.page.ts"],
+      "constants/*": ["./src/constants/*.ts"],
+      "models/*": ["./src/models/*.model.ts"],
+      "schemas/*": ["./src/schemas/*.schema.ts"],
+      "fixtures/*": ["./src/data/fixtures/*.json"],
+      "services/*": ["./src/services/*.service.ts"],
+      "builders/*": ["./src/data/builders/*.builder.ts"],
+      "validators/*": ["./src/validators/*.validator.ts"],
+      "components/*": ["./src/pages/components/*.component.ts"],
+      "messages/error/*": ["./src/constants/messages/error/*.ts"],
+      "messages/success/*": ["./src/constants/messages/success/*.ts"]
+    },
+    "skipLibCheck": true,
+    "noEmit": true,
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/**/*", "tests/**/*", "wdio.conf.ts", "config/*"],
+  "exclude": ["node_modules", "dist", "reports/**/*"]
+}

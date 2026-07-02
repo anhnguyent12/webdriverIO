@@ -1,0 +1,55 @@
+{
+  "name": "webdriverIO",
+  "type": "module",
+  "scripts": {
+    "env:test": "wdio run ./config/wdio.test.conf.ts",
+    "env:prod": "wdio run ./config/wdio.prod.conf.ts",
+    "wdio": "wdio run ./wdio.conf.ts",
+    "suite:login": "wdio --suite login",
+    "tag:login": "wdio --mochaOpts.grep @login",
+    "tag:addBook": "wdio --mochaOpts.grep @addBook",
+    "tag:delBook": "wdio --mochaOpts.grep @deleteBook",
+    "tag:register": "wdio --mochaOpts.grep @register",
+    "tag:smoke": "wdio --mochaOpts.grep @smoke",
+    "tag:flaky": "wdio --mochaOpts.grep @flaky --mochaOpts.invert",
+    "regression": "wdio --suite regression",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.0.0",
+    "@types/winston": "^2.4.4",
+    "@wdio/allure-reporter": "^9.29.0",
+    "@wdio/cli": "^9.29.0",
+    "@wdio/globals": "^9.29.0",
+    "@wdio/local-runner": "^9.29.0",
+    "@wdio/mocha-framework": "^9.29.0",
+    "@wdio/spec-reporter": "^9.29.0",
+    "ajv": "^8.20.0",
+    "allure-commandline": "^2.43.0",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
+    "expect-webdriverio": "^5.6.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.4",
+    "prettier-eslint": "^17.1.1",
+    "tsx": "^4.22.4",
+    "typescript-eslint": "^8.62.0",
+    "winston": "^3.19.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}
