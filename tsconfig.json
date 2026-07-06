@@ -1,38 +1,35 @@
 {
   "compilerOptions": {
-    "moduleResolution": "nodenext",
-    "module": "nodenext",
-    "target": "es2022",
-    "lib": ["es2022", "dom"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "lib": ["ES2022", "dom"],
     "types": ["node", "@wdio/globals/types", "expect-webdriverio", "@wdio/mocha-framework"],
     "paths": {
       "api/*": ["./src/api/*.ts"],
       "utils/*": ["./src/utils/*.ts"],
+      "env": ["./config/env/index.ts"],
       "config/*": ["./config/*.conf.ts"],
       "pages/*": ["./src/pages/*.page.ts"],
       "constants/*": ["./src/constants/*.ts"],
       "models/*": ["./src/models/*.model.ts"],
+      "validators/*": ["./src/validators/*.ts"],
       "schemas/*": ["./src/schemas/*.schema.ts"],
       "fixtures/*": ["./src/data/fixtures/*.json"],
       "services/*": ["./src/services/*.service.ts"],
       "builders/*": ["./src/data/builders/*.builder.ts"],
-      "validators/*": ["./src/validators/*.validator.ts"],
       "components/*": ["./src/pages/components/*.component.ts"],
       "messages/error/*": ["./src/constants/messages/error/*.ts"],
       "messages/success/*": ["./src/constants/messages/success/*.ts"]
     },
     "skipLibCheck": true,
     "noEmit": true,
-    "resolvePackageJsonExports": true,
-    "resolvePackageJsonImports": true,
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*", "tests/**/*", "wdio.conf.ts", "config/*"],
+  "include": ["src/**/*", "tests/**/*", "config/env/*", "wdio.conf.ts", "config/wdio.base.conf.ts"],
   "exclude": ["node_modules", "dist", "reports/**/*"]
 }

@@ -1,3 +1,0 @@
-describe('Book API @bookAPI', () => {
-  //
-});

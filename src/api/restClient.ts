@@ -1,87 +1,79 @@
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import envConfig from 'env';
 import { logger } from 'utils/logger';
 
 class RestClient {
-  private static instance: RestClient;
-  private baseURL: string;
+  private client: AxiosInstance;
 
-  private constructor() {
-    this.baseURL = browser.options.baseUrl || 'api_domain';
-  }
-
-  public static getInstance(): RestClient {
-    if (!RestClient.instance) RestClient.instance = new RestClient();
-    return RestClient.instance;
-  }
-
-  private async request<T>(url: string, options: RequestInit = {}): Promise<T> {
-    const fullUrl = `${this.baseURL}${url}`;
-    const defaultHeaders: Record<string, string> = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    };
-
-    const token = process.env.AUTH_TOKEN || '';
-    if (token) {
-      defaultHeaders['Authorization'] = `Bearer ${token}`;
-    }
-
-    options.headers = { ...defaultHeaders, ...options.headers };
-    logger.info(`API Request: [${options.method || 'GET'}] -> ${fullUrl}`);
-
-    try {
-      const response = await fetch(fullUrl, options);
-
-      let responseData: unknown;
-      const contentType = response.headers.get('content-type');
-
-      if (contentType && contentType.includes('application/json')) {
-        responseData = await response.json();
-      } else {
-        responseData = await response.text();
-      }
-
-      if (!response.ok) {
-        logger.error(
-          `API Response Error: [${options.method || 'GET'}] -> ${url} | Status: ${response.status}`,
-          responseData,
-        );
-        throw new Error(
-          `API Request failed with status ${response.status}: ${JSON.stringify(responseData)}`,
-        );
-      }
-
-      return responseData as T;
-    } catch (error: any) {
-      if (!error.message.includes('API Request failed')) {
-        logger.error(`Network or Internet Error when calling API to ${url}`, error);
-      }
-      throw error;
-    }
-  }
-
-  public async get<T>(url: string, headers?: Record<string, string>): Promise<T> {
-    return await this.request<T>(url, { method: 'GET', headers });
-  }
-
-  public async post<T>(url: string, body?: any, headers?: Record<string, string>): Promise<T> {
-    return await this.request<T>(url, {
-      method: 'POST',
-      headers,
-      body: body ? JSON.stringify(body) : undefined,
+  constructor() {
+    this.client = axios.create({
+      timeout: 15000,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     });
-  }
 
-  public async put<T>(url: string, body?: any, headers?: Record<string, string>): Promise<T> {
-    return await this.request<T>(url, {
-      method: 'PUT',
-      headers,
-      body: body ? JSON.stringify(body) : undefined,
+    this.client.interceptors.request.use((config) => {
+      logger.info(`[REQUEST] - ${config.method?.toUpperCase()} ${config.url}`);
+      if (config.data) {
+        logger.info(`[PAYLOAD] - ${JSON.stringify(config.data)}`);
+      }
+      return config;
     });
+
+    this.client.interceptors.response.use(
+      (response) => {
+        logger.info(`[RESPONSE] - Status: ${response.status} - ${response.config.url}`);
+        return response;
+      },
+      (error) => {
+        logger.error(`[ERROR] - Status: ${error.response?.status} - ${error.config?.url}`);
+        return Promise.reject(error);
+      },
+    );
   }
 
-  public async delete<T>(url: string, headers?: Record<string, string>): Promise<T> {
-    return await this.request<T>(url, { method: 'DELETE', headers });
+  private getBaseUrl(): string {
+    return envConfig?.apiBaseUrl || 'https://demoqa.com/';
+  }
+
+  public async get(
+    endpoint: string,
+    params?: object,
+    customHeaders?: Record<string, string>,
+  ): Promise<AxiosResponse> {
+    const url = this.getBaseUrl() + endpoint;
+    return this.client.get(url, { params, headers: customHeaders });
+  }
+
+  public async post(
+    endpoint: string,
+    data: object,
+    customHeaders?: Record<string, string>,
+  ): Promise<AxiosResponse> {
+    const url = this.getBaseUrl() + endpoint;
+    return this.client.post(url, data, { headers: customHeaders });
+  }
+
+  public async put(
+    endpoint: string,
+    data: object,
+    customHeaders?: Record<string, string>,
+  ): Promise<AxiosResponse> {
+    const url = this.getBaseUrl() + endpoint;
+    return this.client.put(url, data, { headers: customHeaders });
+  }
+
+  public async delete(
+    endpoint: string,
+    data?: object,
+    params?: object,
+    customHeaders?: Record<string, string>,
+  ): Promise<AxiosResponse> {
+    const url = this.getBaseUrl() + endpoint;
+    return this.client.delete(url, { params, data, headers: customHeaders });
   }
 }
 
-export default RestClient.getInstance();
+export default new RestClient();

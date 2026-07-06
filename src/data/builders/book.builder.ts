@@ -21,7 +21,7 @@ class BookBuilder {
     return this;
   }
 
-  public listISBNs(isbn: string[] = ['9781449331818', '9781449337711', '9781449365035']): this {
+  public listISBNs(isbn: string[] = ['9781449337711', '9781449365035', '9781491904244']): this {
     this.book.isbn = isbn;
     return this;
   }

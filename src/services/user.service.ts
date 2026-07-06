@@ -1,4 +1,3 @@
-import { DeleteUser, GenerateToken, Unauthorize, UserInfo } from 'models/user';
 import restClient from 'api/restClient';
 
 const endpoint = {
@@ -10,26 +9,26 @@ const endpoint = {
 } as const;
 
 class UserService {
-  // Header: authorization: token
-  public async getInfo(userId: string): Promise<UserInfo> {
-    return await restClient.get<UserInfo>(endpoint.get(userId));
+  public async getInfo(userId: string, token: string) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return await restClient.get(endpoint.get(userId), undefined, headers);
   }
 
-  public async create(userName: string, password: string): Promise<UserInfo> {
-    return await restClient.post<UserInfo>(endpoint.create, { userName, password });
+  public async create(userName: string, password: string) {
+    return await restClient.post(endpoint.create, { userName, password });
   }
 
-  public async authorized(userName: string, password: string): Promise<boolean> {
-    return await restClient.post<boolean>(endpoint.authorized, { userName, password });
+  public async authorized(userName: string, password: string) {
+    return await restClient.post(endpoint.authorized, { userName, password });
   }
 
-  // Header: authorization: token
-  public async delete(userId: string): Promise<DeleteUser | Unauthorize> {
-    return await restClient.delete<DeleteUser | Unauthorize>(endpoint.delete(userId));
+  public async delete(userId: string, token: string) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return await restClient.delete(endpoint.delete(userId), undefined, headers);
   }
 
-  public async generateToken(userName: string, password: string): Promise<GenerateToken> {
-    return await restClient.post<GenerateToken>(endpoint.generateToken, { userName, password });
+  public async generateToken(userName: string, password: string) {
+    return await restClient.post(endpoint.generateToken, { userName, password });
   }
 }
 

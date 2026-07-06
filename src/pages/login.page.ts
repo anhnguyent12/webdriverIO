@@ -1,4 +1,4 @@
-import BasePage from './base.page.ts';
+import BasePage from 'pages/base';
 
 class LoginPage extends BasePage {
   private readonly locator = {

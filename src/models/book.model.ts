@@ -1,4 +1,4 @@
-export interface BookDetail {
+export interface BookResponse {
   isbn: string;
   title: string;
   subTitle: string;
@@ -10,27 +10,27 @@ export interface BookDetail {
   website: string;
 }
 
-export interface ListBooks {
-  books: BookDetail[];
+export interface BooksResponse {
+  books: BookResponse[];
 }
 
-export interface AddBook {
+export interface AddBookResponse {
   isbn: string;
 }
 
-export interface DeleteBooks {
+export interface DeleteBooksResponse {
   userId: string;
   message: string;
 }
 
-export interface DeleteBook {
+export interface DeleteBookResponse {
   userId: string;
   isbn: string;
   message: string;
 }
 
-export interface ReplaceBook {
+export interface ReplaceBookResponse {
   userId: string;
   username: string;
-  books: BookDetail[];
+  books: BookResponse[];
 }

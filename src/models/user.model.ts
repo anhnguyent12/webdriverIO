@@ -1,9 +1,9 @@
-import { BookDetail } from 'models/book';
+import { BookResponse } from 'models/book';
 
 export interface UserInfo {
   userId: string;
   username: string;
-  books: BookDetail[];
+  books: BookResponse[];
 }
 
 export interface DeleteUser {
