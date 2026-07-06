@@ -1,6 +1,7 @@
 import bookBuilder from 'builders/book';
 import userBuilder from 'builders/user';
 import { HTTP_STATUS_CODES } from 'constants/httpCodes';
+import { bookAPIError } from 'constants/messages/error/bookApi.error';
 import {
   addBookSchema,
   bookSchema,
@@ -17,7 +18,7 @@ import { SchemaValidator } from 'validators/schemaValidator';
 let token: string = '';
 const userId: string = userBuilder.userId as string;
 
-describe('Book API @api', () => {
+describe('Book API @bookApi', () => {
   before(async () => {
     const response = await userService.generateToken(userBuilder.username, userBuilder.password);
     token = response.data.token;
@@ -49,11 +50,11 @@ describe('Book API @api', () => {
   });
 
   it('Should return fail when adding an book existed', async () => {
-    const isbn = bookBuilder.builder().isbn as string;
+    const isbn = bookBuilder.builder().isbn;
     const response = await bookService.addBooks(userId, isbn, token);
     expect(response.status).toEqual(HTTP_STATUS_CODES.BAD_REQUEST);
     SchemaValidator.validate(errorSchema, await response.data);
-    expect(await response.data?.message).toEqual("ISBN already present in the User's Collection!");
+    expect(await response.data?.message).toEqual(bookAPIError.EXISTED_BOOK);
   });
 
   it('Should return correct book when replacing into collection', async () => {
@@ -88,8 +89,6 @@ describe('Book API @api', () => {
     const response = await bookService.addBooks(userId, invalidISBN, token);
     expect(response.status).toEqual(HTTP_STATUS_CODES.BAD_REQUEST);
     SchemaValidator.validate(errorSchema, await response.data);
-    expect(await response.data?.message).toEqual(
-      'ISBN supplied is not available in Books Collection!',
-    );
+    expect(await response.data?.message).toEqual(bookAPIError.INVALID_ISBN);
   });
 });

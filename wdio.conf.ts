@@ -1,4 +1,4 @@
-import { baseConfig } from 'config/wdio.shared';
+import { baseConfig } from 'config/wdio.base';
 import envConfig from 'env';
 
 const isHeadless = process.env.HEADLESS === 'true';

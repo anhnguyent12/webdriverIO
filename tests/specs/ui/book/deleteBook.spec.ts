@@ -8,17 +8,17 @@ import bookService from 'services/book';
 import userService from 'services/user';
 import { logger } from 'utils/logger';
 import modalComponent from 'components/modal';
+import { BookError } from 'constants/messages/error/index';
 
 describe('Delete Book @deleteBook', () => {
   before(async () => {
     logger.info('Setup token for call API');
     const response = await userService.generateToken(userBuilder.username, userBuilder.password);
     const token = response.data.token;
-    process.env.AUTH_TOKEN = token;
     const listISBNs = bookBuilder.listISBNs().builder();
     const userId = userBuilder.userId as string;
-    await bookService.deleteAllBooks(userId);
-    await bookService.addBooks(userId, listISBNs.isbn);
+    await bookService.deleteAllBooks(userId, token);
+    await bookService.addBooks(userId, listISBNs.isbn, token);
   });
 
   beforeEach(async () => {
@@ -70,7 +70,7 @@ describe('Delete Book @deleteBook', () => {
     await modalComponent.clickOK();
 
     browser.on('dialog', async (dialog) => {
-      expect(dialog.message()).toEqual("No books available in your's collection!");
+      expect(dialog.message()).toEqual(BookError.EMPTY_COLLECTION);
       await dialog.dismiss();
     });
   });

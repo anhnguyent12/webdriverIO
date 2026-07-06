@@ -2,6 +2,8 @@ import bookBuilder from 'builders/book';
 import userBuilder from 'builders/user';
 import listBookComponent from 'components/listBook';
 import userMenuComponent from 'components/userMenu';
+import { BookError } from 'constants/messages/error/index';
+import { bookSuccess } from 'constants/messages/success/index';
 import bookPage from 'pages/book';
 import bookDetailPage from 'pages/bookDetail';
 import loginPage from 'pages/login';
@@ -38,7 +40,7 @@ describe('Add Book @addBook', () => {
     expect(await bookDetailPage.getBookTitle()).toEqual(book.title);
     await bookDetailPage.clickAddToYourCollection();
     browser.on('dialog', async (dialog) => {
-      expect(dialog.message()).toEqual('Book added to your collection.');
+      expect(dialog.message()).toEqual(bookSuccess.ADD_TO_COLLECTION);
       await dialog.dismiss();
     });
     await profilePage.open();
@@ -54,7 +56,7 @@ describe('Add Book @addBook', () => {
     expect(await bookDetailPage.getBookTitle()).toEqual(book.title);
     await bookDetailPage.clickAddToYourCollection();
     browser.on('dialog', async (dialog) => {
-      expect(dialog.message()).toEqual('Book already present in the your collection!');
+      expect(dialog.message()).toEqual(BookError.EXISTED_COLLECTION);
       await dialog.dismiss();
     });
   });

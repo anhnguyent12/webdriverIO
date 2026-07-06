@@ -1,11 +1,12 @@
 import userBuilder from 'builders/user';
 import loginPage from 'pages/login';
 import registerPage from 'pages/register';
-import { RegisterErrors } from 'constants/messages/error/index';
 import registerBuilder from 'builders/register';
 import userMenuComponent from 'components/userMenu';
 import profilePage from 'pages/profile';
 import modalComponent from 'components/modal';
+import { RegisterErrors } from 'constants/messages/error/index';
+import { UserSuccess } from 'constants/messages/success/index';
 
 describe('Register @register', () => {
   beforeEach(async () => {
@@ -27,7 +28,7 @@ describe('Register @register', () => {
       registerBuilder.password,
     );
     browser.on('dialog', async (dialog) => {
-      expect(dialog.message()).toEqual('User Registered Successfully.');
+      expect(dialog.message()).toEqual(UserSuccess.REGISTER_SUCCESS);
       await dialog.dismiss();
     });
 
