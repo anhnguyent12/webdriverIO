@@ -9,12 +9,13 @@ import userService from 'services/user';
 import { logger } from 'utils/logger';
 import modalComponent from 'components/modal';
 import { BookError } from 'constants/messages/error/index';
+import { GenerateTokenResponse } from 'models/user';
 
 describe('Delete Book @deleteBook', () => {
   before(async () => {
     logger.info('Setup token for call API');
     const response = await userService.generateToken(userBuilder.username, userBuilder.password);
-    const token = response.data.token;
+    const token = (response.data as GenerateTokenResponse).token;
     const listISBNs = bookBuilder.listISBNs().builder();
     const userId = userBuilder.userId as string;
     await bookService.deleteAllBooks(userId, token);

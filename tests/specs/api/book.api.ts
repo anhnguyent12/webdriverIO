@@ -1,7 +1,8 @@
 import bookBuilder from 'builders/book';
 import userBuilder from 'builders/user';
 import { HTTP_STATUS_CODES } from 'constants/httpCodes';
-import { bookAPIError } from 'constants/messages/error/bookApi.error';
+import { BookAPIError } from 'constants/messages/error/index';
+import { GenerateTokenResponse } from 'models/user';
 import {
   addBookSchema,
   bookSchema,
@@ -21,7 +22,7 @@ const userId: string = userBuilder.userId as string;
 describe('Book API @bookApi', () => {
   before(async () => {
     const response = await userService.generateToken(userBuilder.username, userBuilder.password);
-    token = response.data.token;
+    token = (response.data as GenerateTokenResponse).token;
     await bookService.deleteAllBooks(userId, token);
   });
 
@@ -49,12 +50,12 @@ describe('Book API @bookApi', () => {
     SchemaValidator.validate(addBookSchema, await response.data);
   });
 
-  it('Should return fail when adding an book existed', async () => {
+  it('Should fail to add a book existed', async () => {
     const isbn = bookBuilder.builder().isbn;
     const response = await bookService.addBooks(userId, isbn, token);
     expect(response.status).toEqual(HTTP_STATUS_CODES.BAD_REQUEST);
     SchemaValidator.validate(errorSchema, await response.data);
-    expect(await response.data?.message).toEqual(bookAPIError.EXISTED_BOOK);
+    expect(await response.data?.message).toEqual(BookAPIError.EXISTED_BOOK);
   });
 
   it('Should return correct book when replacing into collection', async () => {
@@ -71,24 +72,24 @@ describe('Book API @bookApi', () => {
     expect(await response.data?.books.title).toEqual(newBook.title);
   });
 
-  it('Should return correct when deleting book', async () => {
+  it('Should delete a book successfully', async () => {
     const book = bookBuilder.replaceBook().builder();
     const response = await bookService.deleteBook(userId, book.isbn as string, token);
     expect(response.status).toEqual(HTTP_STATUS_CODES.NO_CONTENT);
     SchemaValidator.validate(deleteBookSchema, await response.data);
   });
 
-  it('Should return correct when deleting all books', async () => {
+  it('Should delete all books successfully', async () => {
     const response = await bookService.deleteAllBooks(userId, token);
     expect(response.status).toEqual(HTTP_STATUS_CODES.NO_CONTENT);
     SchemaValidator.validate(deleteAllBooksSchema, await response.data);
   });
 
-  it('Should return fail when adding book with an invalid ISBN', async () => {
+  it('Should fail to add book with an invalid ISBN', async () => {
     const invalidISBN = bookBuilder.invalidISBN().builder().isbn as string;
     const response = await bookService.addBooks(userId, invalidISBN, token);
     expect(response.status).toEqual(HTTP_STATUS_CODES.BAD_REQUEST);
     SchemaValidator.validate(errorSchema, await response.data);
-    expect(await response.data?.message).toEqual(bookAPIError.INVALID_ISBN);
+    expect(await response.data?.message).toEqual(BookAPIError.INVALID_ISBN);
   });
 });

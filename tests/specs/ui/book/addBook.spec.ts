@@ -4,6 +4,7 @@ import listBookComponent from 'components/listBook';
 import userMenuComponent from 'components/userMenu';
 import { BookError } from 'constants/messages/error/index';
 import { bookSuccess } from 'constants/messages/success/index';
+import { GenerateTokenResponse } from 'models/user';
 import bookPage from 'pages/book';
 import bookDetailPage from 'pages/bookDetail';
 import loginPage from 'pages/login';
@@ -16,7 +17,7 @@ describe('Add Book @addBook', () => {
   before(async () => {
     logger.info('Setup token for call API');
     const response = await userService.generateToken(userBuilder.username, userBuilder.password);
-    const token = response.data.token;
+    const token = (response.data as GenerateTokenResponse).token;
     await bookService.deleteAllBooks(userBuilder.userId as string, token);
   });
 

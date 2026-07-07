@@ -4,7 +4,7 @@ import { ErrorResponse } from 'models/error';
 export const errorSchema: JSONSchemaType<ErrorResponse> = {
   type: 'object',
   properties: {
-    code: { type: 'integer' },
+    code: { type: 'string' },
     message: { type: 'string' },
   },
   required: ['code', 'message'],
