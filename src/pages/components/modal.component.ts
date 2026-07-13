@@ -24,11 +24,11 @@ class ModalComponent extends BasePage {
     return $(this.locator.cancelBtn);
   }
 
-  public async getModelTitle(): Promise<string> {
+  public async getModalTitle(): Promise<string> {
     return await this.getElementText(this.modalTitle, 'Model Title');
   }
 
-  public async getModelBody(): Promise<string> {
+  public async getModalBody(): Promise<string> {
     return await this.getElementText(this.modalBody, 'Model Body');
   }
 

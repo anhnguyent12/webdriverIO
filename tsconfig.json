@@ -18,6 +18,7 @@
       "fixtures/*": ["./src/data/fixtures/*.json"],
       "services/*": ["./src/services/*.service.ts"],
       "builders/*": ["./src/data/builders/*.builder.ts"],
+      "assertions/*": ["./src/assertions/*.assertion.ts"],
       "components/*": ["./src/pages/components/*.component.ts"],
       "messages/error/*": ["./src/constants/messages/error/*.error.ts"],
       "messages/success/*": ["./src/constants/messages/success/*.success.ts"]

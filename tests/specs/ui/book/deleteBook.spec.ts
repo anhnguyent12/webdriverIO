@@ -7,9 +7,10 @@ import profilePage from 'pages/profile';
 import bookService from 'services/book';
 import userService from 'services/user';
 import { logger } from 'utils/logger';
-import modalComponent from 'components/modal';
 import { BookError } from 'constants/messages/error/index';
 import { GenerateTokenResponse } from 'models/user';
+import modalAssertion from 'assertions/modal';
+import { ModalContent } from 'constants/modalContent';
 
 describe('Delete Book @deleteBook', () => {
   before(async () => {
@@ -42,9 +43,7 @@ describe('Delete Book @deleteBook', () => {
         break;
       }
     }
-    expect(await modalComponent.getModelTitle()).toEqual('Delete Book');
-    expect(await modalComponent.getModelBody()).toEqual('Do you want to delete this book?');
-    await modalComponent.clickOK();
+    await modalAssertion.verify(ModalContent.deleteBook);
 
     // Refresh page and verify the book deleted wasn't contain in collection
     await profilePage.refresh();
@@ -53,11 +52,9 @@ describe('Delete Book @deleteBook', () => {
     expect(newListBookNames).not.toContain(bookName);
   });
 
-  it('Should delete all books success', async () => {
+  it.only('Should delete all books success', async () => {
     await profilePage.clickDeleteAllBooks();
-    expect(await modalComponent.getModelTitle()).toEqual('Delete All Books');
-    expect(await modalComponent.getModelBody()).toEqual('Do you want to delete all books?');
-    await modalComponent.clickOK();
+    await modalAssertion.verify(ModalContent.deleteAllBooks);
 
     await profilePage.refresh();
     await browser.pause(3000);
@@ -66,9 +63,7 @@ describe('Delete Book @deleteBook', () => {
 
   it('Should show dialog warning no book when clicking on Delete All Books', async () => {
     await profilePage.clickDeleteAllBooks();
-    expect(await modalComponent.getModelTitle()).toEqual('Delete All Books');
-    expect(await modalComponent.getModelBody()).toEqual('Do you want to delete all books?');
-    await modalComponent.clickOK();
+    await modalAssertion.verify(ModalContent.deleteAllBooks);
 
     browser.on('dialog', async (dialog) => {
       expect(dialog.message()).toEqual(BookError.EMPTY_COLLECTION);

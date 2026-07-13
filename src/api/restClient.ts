@@ -35,7 +35,7 @@ class RestClient {
   }
 
   private getBaseUrl(): string {
-    return envConfig?.apiBaseUrl || 'https://demoqa.com/';
+    return envConfig?.apiBaseUrl || 'https://demoqa.com';
   }
 
   public async get(

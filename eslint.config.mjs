@@ -13,6 +13,7 @@ export default tseslint.config(
 
   {
     rules: {
+      'preserve-caught-error': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-unused-expressions': 'warn',

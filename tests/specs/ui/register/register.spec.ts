@@ -4,9 +4,10 @@ import registerPage from 'pages/register';
 import registerBuilder from 'builders/register';
 import userMenuComponent from 'components/userMenu';
 import profilePage from 'pages/profile';
-import modalComponent from 'components/modal';
 import { RegisterErrors } from 'constants/messages/error/index';
 import { UserSuccess } from 'constants/messages/success/index';
+import modalAssertion from 'assertions/modal';
+import { ModalContent } from 'constants/modalContent';
 
 describe('Register @register', () => {
   beforeEach(async () => {
@@ -40,10 +41,7 @@ describe('Register @register', () => {
 
     // Delete account
     await profilePage.clickDeleteAccount();
-    expect(await modalComponent.isModalTitleDisplayed()).toBe(true);
-    expect(await modalComponent.getModelTitle()).toEqual('Delete Account');
-    expect(await modalComponent.getModelBody()).toEqual('Do you want to delete your account?');
-    await modalComponent.clickOK();
+    await modalAssertion.verify(ModalContent.deleteAccount);
   });
 
   it('Should show error message with an existing user', async () => {

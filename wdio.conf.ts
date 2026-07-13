@@ -5,7 +5,7 @@ const isHeadless = process.env.HEADLESS === 'true';
 
 export const config: WebdriverIO.Config = {
   ...baseConfig,
-  baseUrl: envConfig?.baseUrl || 'https://demoqa.com/',
+  baseUrl: envConfig?.baseUrl || 'https://demoqa.com',
   maxInstances: 1,
   capabilities: [
     {

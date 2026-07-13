@@ -1,5 +1,6 @@
 import { logger } from 'utils/logger';
 import { TIMEOUTS } from 'constants/timeouts';
+import { BrowserUtil } from 'utils/browser';
 
 type Element = ChainablePromiseElement;
 
@@ -12,6 +13,7 @@ export default class BasePage {
     try {
       await browser.url(path);
       await this.waitForPageLoad();
+      await BrowserUtil.removeAds();
     } catch (error) {
       logger.error('Error when opening');
       throw new Error(JSON.stringify(error, null, 2));
@@ -22,6 +24,7 @@ export default class BasePage {
     try {
       await browser.refresh();
       await this.waitForPageLoad();
+      await BrowserUtil.removeAds();
     } catch (error) {
       logger.error('Error when refreshing');
       throw new Error(JSON.stringify(error, null, 2));
