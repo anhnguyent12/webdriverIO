@@ -13,6 +13,9 @@
     "tag:smoke": "wdio --mochaOpts.grep @smoke",
     "tag:flaky": "wdio --mochaOpts.grep @flaky --mochaOpts.invert",
     "regression": "wdio --suite regression",
+    "report:generate": "allure generate reports/allure-results --clean -o reports/allure-report",
+    "report:open": "allure open reports/allure-report",
+    "report:clear": "rimraf reports/allure-results reports/allure-report",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format:check": "prettier --check .",
@@ -46,7 +49,8 @@
   },
   "devDependencies": {
     "@types/node": "^26.1.0",
-    "cross-env": "^10.1.0"
+    "cross-env": "^10.1.0",
+    "rimraf": "^6.0.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
