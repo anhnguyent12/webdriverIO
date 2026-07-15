@@ -28,24 +28,30 @@ The framework is designed to provide:
 ## Project Structure
 
 ```text
-config/                  # WebdriverIO and environment config
-src/
-  api/                   # HTTP client wrapper
-  assertions/            # Assertion helpers
-  constants/             # Shared constants, messages, and timeouts
-  data/
-    builders/            # Test data builders
-    fixtures/            # Static JSON fixtures
-  models/                # TypeScript interfaces/types
-  pages/                 # Page Objects and UI component classes
-  schemas/               # API response schemas
-  services/              # API service abstractions
-  utils/                 # Utilities such as logger and browser helpers
-  validators/            # Schema validation helpers
-tests/
-  specs/
-    api/                 # API tests
-    ui/                  # UI tests
+webdriverio-project/
+├── config/                          # WebdriverIO and environment configuration
+│   └── env/                         # Environment files: dev, test, prod
+├── src/                             # Main source code
+│   ├── api/                         # API client and request handling
+│   ├── assertions/                  # Reusable assertion helpers
+│   ├── constants/                   # Shared constants, messages, and timeouts
+│   ├── data/                        # Test data and fixtures
+│   │   ├── builders/                # Data builders for test inputs
+│   │   └── fixtures/                # JSON fixture files
+│   ├── models/                      # TypeScript models/interfaces
+│   ├── pages/                       # Page Object Model classes
+│   │   └── components/              # Reusable page components
+│   ├── schemas/                     # AJV schemas for API validation
+│   ├── services/                    # API service layer
+│   ├── utils/                       # Helper utilities (logger, browser, etc.)
+│   └── validators/                  # Validation wrappers and helpers
+├── tests/                           # Test specifications
+│   └── specs/                       # UI and API test suites
+│       ├── api/                     # API test cases
+│       └── ui/                      # UI test cases
+├── reports/                         # Test reports and Allure outputs
+├── screenshots/                     # Failure screenshots
+└── logs/                            # Runtime and error logs
 ```
 
 ## Main Functional Areas
