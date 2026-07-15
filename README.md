@@ -152,6 +152,25 @@ Allure reports are generated in the `reports/allure-results` folder.
 
 Screenshots captured during failures are stored in the `screenshots` folder.
 
+### Run tests and generate Allure report
+
+```bash
+npm run wdio
+npm run report:generate
+```
+
+### Open the generated report
+
+```bash
+npm run report:open
+```
+
+### Clear old report data
+
+```bash
+npm run report:clear
+```
+
 ## Code Quality
 
 Useful commands:
