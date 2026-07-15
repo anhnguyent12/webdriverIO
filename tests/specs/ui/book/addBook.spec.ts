@@ -1,3 +1,4 @@
+import dialogAssertion from 'assertions/dialog';
 import bookBuilder from 'builders/book';
 import userBuilder from 'builders/user';
 import listBookComponent from 'components/listBook';
@@ -40,10 +41,7 @@ describe('Add Book @addBook', () => {
     expect(await bookDetailPage.getISBN()).toEqual(book.isbn);
     expect(await bookDetailPage.getBookTitle()).toEqual(book.title);
     await bookDetailPage.clickAddToYourCollection();
-    browser.on('dialog', async (dialog) => {
-      expect(dialog.message()).toEqual(bookSuccess.ADD_TO_COLLECTION);
-      await dialog.dismiss();
-    });
+    dialogAssertion.verifyMessage(bookSuccess.ADD_TO_COLLECTION);
     await profilePage.open();
     expect(await listBookComponent.isBookDisplayed(book.title)).toBe(true);
   });
@@ -56,9 +54,6 @@ describe('Add Book @addBook', () => {
     expect(await bookDetailPage.getISBN()).toEqual(book.isbn);
     expect(await bookDetailPage.getBookTitle()).toEqual(book.title);
     await bookDetailPage.clickAddToYourCollection();
-    browser.on('dialog', async (dialog) => {
-      expect(dialog.message()).toEqual(BookError.EXISTED_COLLECTION);
-      await dialog.dismiss();
-    });
+    dialogAssertion.verifyMessage(BookError.EXISTED_COLLECTION);
   });
 });

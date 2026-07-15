@@ -11,6 +11,7 @@ import { BookError } from 'constants/messages/error/index';
 import { GenerateTokenResponse } from 'models/user';
 import modalAssertion from 'assertions/modal';
 import { ModalContent } from 'constants/modalContent';
+import dialogAssertion from 'assertions/dialog';
 
 describe('Delete Book @deleteBook', () => {
   before(async () => {
@@ -64,10 +65,6 @@ describe('Delete Book @deleteBook', () => {
   it('Should show dialog warning no book when clicking on Delete All Books', async () => {
     await profilePage.clickDeleteAllBooks();
     await modalAssertion.verify(ModalContent.deleteAllBooks);
-
-    browser.on('dialog', async (dialog) => {
-      expect(dialog.message()).toEqual(BookError.EMPTY_COLLECTION);
-      await dialog.dismiss();
-    });
+    dialogAssertion.verifyMessage(BookError.EMPTY_COLLECTION);
   });
 });

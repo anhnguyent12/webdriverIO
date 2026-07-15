@@ -8,6 +8,7 @@ import { RegisterErrors } from 'constants/messages/error/index';
 import { UserSuccess } from 'constants/messages/success/index';
 import modalAssertion from 'assertions/modal';
 import { ModalContent } from 'constants/modalContent';
+import dialogAssertion from 'assertions/dialog';
 
 describe('Register @register', () => {
   beforeEach(async () => {
@@ -28,10 +29,7 @@ describe('Register @register', () => {
       registerBuilder.username,
       registerBuilder.password,
     );
-    browser.on('dialog', async (dialog) => {
-      expect(dialog.message()).toEqual(UserSuccess.REGISTER_SUCCESS);
-      await dialog.dismiss();
-    });
+    dialogAssertion.verifyMessage(UserSuccess.REGISTER_SUCCESS);
 
     // Verify login success with new user
     await loginPage.open();
